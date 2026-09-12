@@ -1,149 +1,148 @@
 # mor10z
 
-**Terminal sound system.** En neonfarget musikkspiller og liten synth-stasjon, skrevet i Go.
+**Terminal sound system.** A neon music player and small synth workstation written in Go.
 
-- MP3, WAV, FLAC, OGG, M4A og Opus gjennom en privat mpv-prosess.
-- Play/pause, stop, neste/forrige, spoling, volum, mute, shuffle og repeat.
-- Søkbart bibliotek og rekursiv mappeovervåking hvert tredje sekund.
-- Navngitte spillelister med automatisk lagring og M3U/M3U8-import, M3U-eksport.
-- 16-stegs synthesizer: saw, square, sine, triangle, suboscillator, envelope,
-  low-pass-filter og delay. Juster pitch, tempo og gates; eksporter til WAV.
-- Responsivt TUI med bibliotek, spillelister og synth-lab. Ingen nettjenester.
+- MP3, WAV, FLAC, OGG, M4A and Opus playback through a private mpv process.
+- Play/pause, stop, next/previous, seeking, volume, mute, shuffle and repeat.
+- Searchable library with recursive folder scanning every three seconds.
+- Named playlists with automatic saving, M3U/M3U8 import and M3U export.
+- 16-step synthesizer: saw, square, sine, triangle, suboscillator, envelope,
+  low-pass filter and delay. Adjust pitch, tempo and gates; export to WAV.
+- Responsive terminal interface with library, playlists and synth lab. No online services.
 
-## Start
+## Getting started
 
-Last ned Arch/Omarchy-pakken fra [utgivelsene](https://github.com/mbekkelund/mor10z/releases).
-Installer den nedlastede pakken med `sudo pacman -U ./mor10z-0.1.0-1-x86_64.pkg.tar.zst`.
-Åpne deretter **mor10z** fra appmenyen eller terminalen:
+Download the Arch/Omarchy package from [releases](https://github.com/mbekkelund/mor10z/releases).
+Install it with `sudo pacman -U ./mor10z-0.1.0-1-x86_64.pkg.tar.zst`.
+Then open **mor10z** from the application launcher or terminal:
 
 ```bash
 mor10z
-mor10z ~/Music "/sti/til/flere låter"
-mor10z /sti/til/spilleliste.m3u
+mor10z ~/Music "/path/to/more tracks"
+mor10z /path/to/playlist.m3u
 ```
 
-Start uten argumenter for å åpne forrige bibliotek. Første gang brukes `~/Music`
-hvis mappen finnes. Trykk `f` for å legge til en mappe fra spilleren, eller `3` og
-`Enter` for å høre den innebygde synth-sekvensen med en gang.
+Start without arguments to reopen your previous library. On first launch, mor10z
+uses `~/Music` if it exists. Press `f` to add a folder from the player, or `3` and
+`Enter` to hear the built-in synth sequence immediately.
 
-Krever **mpv** på PATH og Linux/macOS med en UTF-8-terminal på minst 48 × 18.
-110 × 36 eller større anbefales for hele synth-panelet og sidekolonnen.
-Lydmotoren ignorerer din vanlige
-mpv-konfigurasjon og bruker en egen IPC-socket i en privat midlertidig mappe.
+Requires **mpv** on PATH and Linux/macOS with a UTF-8 terminal of at least 48 × 18.
+110 × 36 or larger is recommended for the full synth panel and sidebar.
+The audio engine ignores your usual mpv configuration and uses its own IPC socket
+in a private temporary directory.
 
-## Tastatur
+## Keyboard controls
 
-| Tast | Handling |
+| Key | Action |
 | --- | --- |
-| `Tab`, `Shift+Tab`, `1`–`4` | Bytt panel |
-| `Enter` | Spill valgt låt og bruk den viste listen som avspillingskø |
-| `Space` | Play/pause i bibliotek og spillelister |
+| `Tab`, `Shift+Tab`, `1`–`4` | Switch panels |
+| `Enter` | Play the selected track and use the displayed list as the playback queue |
+| `Space` | Play/pause in the library and playlists |
 | `x` | Stop |
-| `n` / `b` | Neste / forrige (eller start låten på nytt etter 3 sekunder) |
-| `←` / `→` | Spol 5 sekunder i bibliotek/spillelister |
-| `v` / `V` | Volum opp / ned |
+| `n` / `b` | Next / previous (or restart the track after 3 seconds) |
+| `←` / `→` | Seek 5 seconds in the library/playlists |
+| `v` / `V` | Volume up / down |
 | `m` | Mute |
-| `s` | Shuffle av/på |
-| `r` | Repeat av → låt → alle |
-| `j` / `k`, `↓` / `↑` | Velg låt |
-| `PgUp` / `PgDn`, `Home` / `End` | Bla i biblioteket |
-| `/` | Søk mens du skriver; Enter avslutter søkefeltet, Esc i listen nullstiller |
-| `f` | Legg til mappe eller lydfil |
-| `[` / `]` | Velg målspilleliste / bytt spilleliste |
-| `a` | Legg valgt låt i målspillelisten |
-| `P` | Opprett spilleliste |
-| `d` | Fjern valgt låt fra spillelisten (lydfilen beholdes) |
-| `I` | Importer lokal M3U/M3U8 |
-| `e` | Eksporter målspillelisten til M3U |
-| `?` | Hjelp |
-| `q`, `Ctrl+C` | Lagre og avslutt |
+| `s` | Toggle shuffle |
+| `r` | Cycle repeat: off → track → all |
+| `j` / `k`, `↓` / `↑` | Select a track |
+| `PgUp` / `PgDn`, `Home` / `End` | Navigate the library |
+| `/` | Search as you type; Enter leaves the search field, Esc in the list clears the search |
+| `f` | Add a folder or audio file |
+| `[` / `]` | Select the target playlist / switch playlists |
+| `a` | Add the selected track to the target playlist |
+| `P` | Create a playlist |
+| `d` | Remove the selected track from the playlist (keeps the audio file) |
+| `I` | Import a local M3U/M3U8 playlist |
+| `e` | Export the target playlist to M3U |
+| `?` | Help |
+| `q`, `Ctrl+C` | Save and quit |
 
-Store og små bokstaver er ulike: `P`, `I` og `V` betyr Shift+tasten.
+Controls are case-sensitive: `P`, `I` and `V` mean Shift + the corresponding key.
 
-## Synth-lab
+## Synth lab
 
-Trykk `3`, deretter `Enter`. Synthesizeren lager sin egen lyd i Go og spiller
-sekvensen i loop. Synth erstatter musikkavspillingen; `1` og Enter på en låt
-bytter tilbake til musikk. Dette er en step-sequencer, ikke et MIDI-instrument.
+Press `3`, then `Enter`. The synthesizer generates its own audio in Go and loops
+the sequence. Synth playback replaces music playback; press `1` and Enter on a
+track to return to music. This is a step sequencer, not a MIDI instrument.
 
-| Tast | Synth-handling |
+| Key | Synth action |
 | --- | --- |
-| `←` / `→`, `h` / `l` | Velg steg |
-| `↑` / `↓`, `k` / `j` | Endre tone med en halvtone |
-| `Space` | Slå steg av/på |
-| `Enter` | Bruk endringene og spill sekvensen i loop |
-| `w` | Bytt oscillator |
-| `+` / `-` | Tempo, 40–240 BPM |
-| `,` / `.` | Senk / øk filterfrekvensen |
-| `d` | Delay av/på |
-| `[` / `]` | Flytt hele sekvensen en oktav |
-| `e` | Eksporter én loop som 44,1 kHz / 16-bit mono WAV |
-| `0` | Tilbakestill mønster |
-| `x` | Stopp lyd |
+| `←` / `→`, `h` / `l` | Select a step |
+| `↑` / `↓`, `k` / `j` | Change the note by one semitone |
+| `Space` | Toggle a step on/off |
+| `Enter` | Apply changes and loop the sequence |
+| `w` | Switch oscillators |
+| `+` / `-` | Adjust tempo, 40–240 BPM |
+| `,` / `.` | Lower / raise the filter cutoff frequency |
+| `d` | Toggle delay |
+| `[` / `]` | Transpose the entire sequence by one octave |
+| `e` | Export one loop as 44.1 kHz / 16-bit mono WAV |
+| `0` | Reset the pattern |
+| `x` | Stop audio |
 
-Saw og square bruker polyBLEP for å redusere aliasing. Filteret er et enkelt
-énpolet lavpassfilter. Delay varmes opp over flere runder før loopen eksporteres.
-Oscillatortegningen viser valgt bølgeform; den er ikke en frekvensanalyse av musikken.
-Synth-mønster lagres ved Enter og avslutning.
+Saw and square oscillators use polyBLEP to reduce aliasing. The filter is a simple
+one-pole low-pass filter. Delay is warmed up over several cycles before the loop
+is exported. The oscillator drawing shows the selected waveform; it is not a
+frequency analysis of the music. The synth pattern is saved on Enter and when quitting.
 
-Du kan også generere demoen uten mpv eller terminalgrensesnitt:
+You can also generate the demo without mpv or the terminal interface:
 
 ```bash
-./bin/mor10z --demo /tmp/mor10z-demo.wav
+mor10z --demo /tmp/mor10z-demo.wav
 ```
 
-## Lagring og mappeovervåking
+## Storage and folder scanning
 
-Standard: `$XDG_CONFIG_HOME/mor10z`, ellers `~/.config/mor10z`.
-Bruk `--data-dir /annen/mappe` for en separat profil.
+Default: `$XDG_CONFIG_HOME/mor10z`, otherwise `~/.config/mor10z`.
+Use `--data-dir /another/folder` for a separate profile.
 
-- `state.json`: mapper, spillelister og volum; skrives atomisk.
-- `synth.json`: siste synth-mønster.
-- `playlist-N.m3u`: eksportert spilleliste. Ny eksport av samme liste erstatter filen.
-- `mor10z-synth-*.wav`: unikt navngitte synth-eksporter.
+- `state.json`: folders, playlists and volume; written atomically.
+- `synth.json`: the latest synth pattern.
+- `playlist-N.m3u`: exported playlist. Exporting the same playlist again replaces the file.
+- `mor10z-synth-*.wav`: uniquely named synth exports.
 
-Mappeskanningen finner nye og slettede lydfiler, også i undermapper. Skjulte
-undermapper hoppes over, og symlink-mapper følges ikke. Biblioteket sorteres etter
-filnavn; spillertittelen kommer fra mpv. Store bibliotek kan gjøre skanning tregere,
-men skanningen kjøres utenfor UI-tråden. En startet avspillingskø er et øyeblikksbilde;
-nyoppdagede filer blir med når du starter en ny liste med Enter. Spillelister beholder
-referanser til filer som flyttes eller slettes, og mpv melder feil ved avspilling.
-M3U-import støtter lokale filstier, ikke strømmelenker.
+Folder scanning detects new and deleted audio files, including in subfolders.
+Hidden subfolders are skipped, and directory symlinks are not followed. The library
+is sorted by filename; the player title comes from mpv. Large libraries may take
+longer to scan, but scanning runs outside the UI thread. A playback queue is a
+snapshot: newly discovered files are included when you start a new list with Enter.
+Playlists retain references to moved or deleted files, and mpv reports an error
+when trying to play them. M3U import supports local file paths, not streaming URLs.
 
-## Bygg og test
+## Build and test
 
-For en installerbar Arch/Omarchy-pakke, se [pakkeveiledningen](packaging/README.md).
+For an installable Arch/Omarchy package, see the [packaging guide](packaging/README.md).
 
-Go 1.25+ og mpv. Makefile finner også Go-kompilatoren som er hentet til
-`../.tools/go` på denne maskinen.
+Requires Go 1.25+ and mpv. The Makefile also supports a local Go installation at
+`../.tools/go` as a fallback when Go is not on PATH.
 
 ```bash
 make build
 make test
-make check  # vet + race + ekte MP3/WAV-integrasjon med mpv --ao=null; krever ffmpeg
+make check  # vet + race + real MP3/WAV integration with mpv --ao=null; requires ffmpeg
 ```
 
-Integrasjonstesten bruker lydløs utgang og sjekker lasting av MP3/WAV, pause,
-spoling, volum, stopp og end-of-file. Enhetstestene dekker filendringer, spillelister,
-M3U, tilstand, synth-lyd/WAV og TUI-navigasjon/layout.
+The integration test uses silent audio output and checks MP3/WAV loading, pause,
+seeking, volume, stop and end-of-file. Unit tests cover file changes, playlists,
+M3U, state, synth audio/WAV and terminal navigation/layout.
 
-Bygget på [Bubble Tea](https://pkg.go.dev/github.com/charmbracelet/bubbletea),
-[Lip Gloss](https://github.com/charmbracelet/lipgloss) og
-[mpvs JSON IPC](https://mpv.io/manual/stable/#json-ipc).
+Built with [Bubble Tea](https://pkg.go.dev/github.com/charmbracelet/bubbletea),
+[Lip Gloss](https://github.com/charmbracelet/lipgloss) and
+[mpv's JSON IPC](https://mpv.io/manual/stable/#json-ipc).
 
 ## Visualizer
 
-Trykk `4` mens en låt spiller. `z` bytter mellom neonfarget frekvensspektrum,
-oscilloskop og rullende spektrogram. Space pauser, piltastene spoler.
-Synth-panelet har også bølgeformvisning. Start synth med `3`, Enter, og trykk
-`4` for stor visualizer.
+Press `4` while a track is playing. `z` cycles through a neon frequency spectrum,
+oscilloscope and scrolling spectrogram. Space pauses; arrow keys seek.
+The synth panel also displays a waveform. Start the synth with `3`, Enter, then
+press `4` for the large visualizer.
 
-Analysen bruker ffmpeg til å lese korte utsnitt av
-lydfilen og beregner FFT i Go. Visningen følger mpv sin avspillingsposisjon,
-inkludert spoling og looping. Den viser signalet i kildefilen før volum/mute;
-den tar ikke opp mikrofonen eller annen systemlyd. Manglende ffmpeg påvirker
-ikke musikkavspillingen.
+Analysis uses ffmpeg to read short sections of the audio file and calculates an
+FFT in Go. The display follows mpv's playback position, including seeking and
+looping. It shows the source signal before volume/mute adjustments; it does not
+record the microphone or other system audio. Music playback works without ffmpeg.
 
-## Lisens
+## License
 
 [MIT](LICENSE). Copyright © 2026 Morten Bekkelund.
