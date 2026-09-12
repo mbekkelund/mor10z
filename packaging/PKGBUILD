@@ -1,0 +1,39 @@
+# Release recipe; make dist fills in the source checksum.
+pkgname=mor10z
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Terminal music player, synthesizer and visualizer'
+arch=('x86_64' 'aarch64')
+options=('!debug')
+license=('MIT')
+url='https://github.com/mbekkelund/mor10z'
+depends=('glibc' 'mpv')
+optdepends=('ffmpeg: audio visualizer')
+makedepends=('go>=1.25')
+checkdepends=('ffmpeg')
+source=("$url/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('@SHA256@')
+
+build() {
+  cd "$pkgname-$pkgver"
+  export GOPROXY=off GOTOOLCHAIN=local
+  go build -mod=vendor -buildvcs=false -trimpath -buildmode=pie -o bin/mor10z ./cmd/mor10z
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export GOPROXY=off GOTOOLCHAIN=local
+  go vet -mod=vendor ./...
+  MOR10Z_AUDIO_TEST=1 go test -mod=vendor ./...
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  if [[ -f LICENSE ]]; then
+    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  fi
+  while IFS= read -r -d '' file; do
+    install -Dm644 "$file" "$pkgdir/usr/share/licenses/$pkgname/${file}"
+  done < <(find vendor -type f \( -iname '*license*' -o -iname '*copying*' -o -iname '*notice*' \) -print0)
+}

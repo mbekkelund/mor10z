@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=mor10z
+GenericName=Music Player
+Comment=Terminal music player and synthesizer
+Exec=mor10z
+Icon=multimedia-audio-player
+Terminal=true
+Categories=AudioVideo;Audio;Player;
+Keywords=music;mp3;wav;synth;playlist;
+StartupNotify=false

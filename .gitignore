@@ -1,0 +1,5 @@
+/bin/
+*.wav
+*.mp3
+coverage.out
+/dist/
