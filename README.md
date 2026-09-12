@@ -10,6 +10,16 @@
   low-pass filter and delay. Adjust pitch, tempo and gates; export to WAV.
 - Responsive terminal interface with library, playlists and synth lab. No online services.
 
+## Screenshots
+
+Browse your library and control playback.
+
+![mor10z library showing tracks and playback controls](docs/screenshots/library.png)
+
+Watch the frequency spectrum while your music plays.
+
+![mor10z visualizer displaying a colorful frequency spectrum](docs/screenshots/visualizer.png)
+
 ## Getting started
 
 Download the Arch/Omarchy package from [releases](https://github.com/mbekkelund/mor10z/releases).
