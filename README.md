@@ -1,5 +1,7 @@
 # mor10z
 
+**Support me:** If you enjoy mor10z, [subscribe to my YouTube channel](https://www.youtube.com/@whiletrue1337). Thanks for your support!
+
 **Terminal sound system.** A neon music player and small synth workstation written in Go.
 
 - MP3, WAV, FLAC, OGG, M4A and Opus playback through a private mpv process.
